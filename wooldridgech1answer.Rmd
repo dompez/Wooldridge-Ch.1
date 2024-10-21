@@ -1,0 +1,67 @@
+## Wooldridge Ch.1 Computer Exercises
+
+**C1** Use the data in WAGE1 for this exercise. (i) Find the average education level in the sample. What are the lowest and highest years of education?
+
+```{r}
+mean(wage1$educ)
+min(wage1$educ)
+max(wage1$educ)
+```
+
+(ii) Find the average hourly wage in the sample. Does it seem high or low?
+
+```{r}
+mean(wage1$wage)
+print('Because this data set is from 1988, it seems pretty standard. ')
+```
+
+(iii) The wage data are reported in 1976 dollars. Using the Internet or a printed source, find the Consumer Price Index (CPI) for the years 1976 and 2013.
+
+```{r}
+print('CPI 1976: 56.9
+      CPI 2013: 233')
+```
+
+(iv) Use the CPI values from part (iii) to find the average hourly wage in 2013 dollars. Now does the average hourly wage seem reasonable?
+
+```{r}
+mean_wage_1976 <- mean(wage1$wage)
+CPI_ratio <- 233/56.9
+mean_wage_1976 * CPI_ratio
+print('Yes, this average hourly wage seems reasonable.')
+```
+
+(v) How many women are in the sample? How many men?
+
+```{r}
+female <- length(wage1$female[wage1$female == 1])
+men <- length(wage1$female[wage1$female != 1])
+paste('There are',female,'females, and',men,'men.')
+```
+
+**C2** Use the data in BWGHT to answer this question. (i) How many women are in the sample, and how many report smoking during pregnancy?
+
+```{r}
+paste(length(bwght$male[bwght$male == '0']),'females.')
+
+```
+
+(ii) What is the average number of cigarettes smoked per day? Is the average a good measure of the “typical” woman in this case? Explain.
+
+```{r}
+```
+
+(iii) Among women who smoked during pregnancy, what is the average number of cigarettes smoked per day? How does this compare with your answer from part (ii), and why?
+
+```{r}
+```
+
+(iv) Find the average of fatheduc in the sample. Why are only 1,192 observations used to compute this average?
+
+```{r}
+```
+
+(v) Report the average family income and its standard deviation in dollars.
+
+```{r}
+```
