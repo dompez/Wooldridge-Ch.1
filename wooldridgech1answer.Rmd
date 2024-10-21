@@ -42,26 +42,99 @@ paste('There are',female,'females, and',men,'men.')
 **C2** Use the data in BWGHT to answer this question. (i) How many women are in the sample, and how many report smoking during pregnancy?
 
 ```{r}
-paste(length(bwght$male[bwght$male == '0']),'females.')
+women <- length(bwght$male)
+paste('There are',women,'women in the sample.')
 
+preg_smoked <- bwght$male[bwght$cigs > 0]
+paste(length(preg_smoked),'women smoked.')
 ```
 
 (ii) What is the average number of cigarettes smoked per day? Is the average a good measure of the “typical” woman in this case? Explain.
 
 ```{r}
+ave_cigsii <- round(mean(bwght$cigs),2)
+paste('An average of',ave_cigs,'cigarettes were smoked while the women were pregnant. This is not a good estimate for the typical woman as the mean can tend to be skewed in this case. Additionally, most women didn\'t smoke at all.')
 ```
 
 (iii) Among women who smoked during pregnancy, what is the average number of cigarettes smoked per day? How does this compare with your answer from part (ii), and why?
 
 ```{r}
+ave_cigsiii <- mean(bwght$cigs[bwght$cigs > 0])
+paste('For women who did smoke, the average number of cigarettes was',round(ave_cigsiii,2),'. This is different than the prior average as this only contains those who smoked at least one.')
 ```
 
 (iv) Find the average of fatheduc in the sample. Why are only 1,192 observations used to compute this average?
 
 ```{r}
+na_fatheduc <- sum(is.na(bwght$fatheduc))
+ave_fathereduc <- mean(bwght$fatheduc, na.rm = TRUE)
+paste('The average year\'s of education for the fathers was',round(ave_fathereduc,2),'years. The reason only 1,192 observations exist is because there are',na_fatheduc,'missing values in this column.')
 ```
 
 (v) Report the average family income and its standard deviation in dollars.
 
 ```{r}
+paste('Average family income:',round(mean(bwght$faminc),2),'dollars.')
+paste('Standard deviation:',round(sd(bwght$faminc),4),'dollars.')
+```
+
+**C3** The data in MEAP01 are for the state of Michigan in the year 2001. Use these data to answer the following questions. (i) Find the largest and smallest values of math4. Does the range make sense? Explain.
+
+```{r}
+paste('Minimum math4:',min(meap01$math4))
+paste('Maximum math4:',max(meap01$math4))
+print('Since the units are in percentiles, the range of course should be from 0 to 100 and the minimum and maximum would be in that range.')
+```
+
+(ii) How many schools have a perfect pass rate on the math test? What percentage is this of the total sample?
+
+```{r}
+paste(length(meap01$math4[meap01$math4 == 100]),'schools had a perfect pass rate on the math test.')
+paste(round(length(meap01$math4[meap01$math4 == 100])/length(meap01$math4),2),'percent of schools had a perfect pass rate on the math test.')
+```
+
+(iii) How many schools have math pass rates of exactly 50%?
+
+```{r}
+paste(length(meap01$math4[meap01$math4 == 50]),'schools had a math pass rate of 50%')
+```
+
+(iv) Compare the average pass rates for the math and reading scores. Which test is harder to pass?
+
+```{r}
+paste('Average pass rate for math:',round(mean(meap01$math4),2))
+paste('Average pass rate for reading:',round(mean(meap01$read4),2))
+print('Based on the information above, it seems like the reading test is harder to pass since less did so.')
+```
+
+(v) Find the correlation between math4 and read4. What do you conclude?
+
+```{r}
+x <- meap01$math4
+y <- meap01$read4
+cor(x,y)
+print('We can conclude there is a somewhat strong positive relationship between the math and reading scores, in that, as math scores increase, the reading scores also increase.')
+```
+
+(vi) The variable exppp is expenditure per pupil. Find the average of exppp along with its standard deviation. Would you say there is wide variation in per pupil spending?
+
+```{r}
+mean_exppp <- round(mean(meap01$exppp),2)
+sd_exppp <- round(sd(meap01$exppp),2)
+
+upper <- mean_exppp + 2 * sd_exppp
+lower <- mean_exppp - 2*sd_exppp
+paste('Mean exppp:',mean_exppp)
+paste('Standard deviation of exppp:',sd_exppp)
+paste('95% CI:',round(lower,2),',',round(upper,2))
+print('Yes, there is a wide variation in the per pupil spending.')
+```
+
+(vii) Suppose School A spends \$6,000 per student and School B spends \$5,500 per student. By what percentage does School A’s spending exceed School B’s? Compare this to 100 · [log(6,000) – log(5,500)], which is the approximation percentage difference based on the difference in the natural logs. (See Section A.4 in Math Refresher A.)
+
+```{r}
+school_a = 6000 / mean(meap01$exppp)
+school_b = 5500 / mean(meap01$exppp)
+paste(round((school_a - school_b)*100,2))
+100*(log(6000) - log(5500))
 ```
